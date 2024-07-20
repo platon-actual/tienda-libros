@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} Ediciones {% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="./static/style/index.css" >
+{% endblock %}
+{% block content %}
+
+<h3>Seleccione una imágen para subir</h3>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+        <li> {{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+{% endwith %}
+
+<form action="./ediciones" method="post" enctype="multipart/form-data">
+    <input type="file" name="portada" id="portada" required class="form-control">
+    <p><input type="submit" value="Subir imágen" class="btn btn-info"></p>
+</form>
+
+<h2>Lista de Ediciones de libros</h2>
+<ul>
+{% for edicion in ediciones %}
+    <li> <img src="{{ edicion.imagen }}" alt="{{ edicion.titulo }}"> {{ edicion.isbn }}, {{ edicion.edicion_id}}</li>
+{% endfor %}
+</ul>
+<script src="./assets/script/index.js"></script>
+
+{% endblock %}

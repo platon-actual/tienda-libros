@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %} Bienvenidos {% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="./static/style/index.css" >
+{% endblock %}
+{% block content %}
+
+<h2>Catálogo completo:</h2>
+<p>En construcción...</p>
+{% if libros %}
+<ul>
+{% for libro in libros %}
+    <li> {{libro.titulo }}, {{ libro.autor}}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<script src="./assets/script/index.js"></script>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %} Bienvenidos {% endblock %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="./static/style/index.css" >
+{% endblock %}
+{% block content %}
+
+<h2>Sobre nosotros:</h2>
+<p>Para ponerse en contacto, envíenos un correo electrónico a:</p>
+<p><a href="mailto:micaela.mosquera.mm@gmail.com">Micaela Mosquera</a></p>
+{% if editores %}
+<ul>
+{% for editor in editores %}
+    <li> {{editor.nombre }}, {{ editor.editor_id}}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<script src="./assets/script/index.js"></script>
+
+{% endblock %}
