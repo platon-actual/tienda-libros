@@ -31,6 +31,12 @@
     <label for="isbn">ISBN (número de serie internacional):</label>
     <input type="text" class="form-control" name="isbn" id="isbn">
     <br>
+    <label for="paginas">Número de páginas: </label>
+    <input type="number" class="form-control" name="paginas" id="paginas">
+    <br>
+    <label for="isbn">Tamaño (ej: 30cm x 19cm x 2cm):</label>
+    <input type="text" class="form-control" name="tamanio" id="tamanio">
+    <br>
     <label for="editores">Editor:</label>
     <select name="editores" id="editores" class="form-control">
         {% for editor in editores %}
@@ -53,7 +59,7 @@
 <h2>Lista de Ediciones de libros</h2>
 <ul>
 {% for edicion in ediciones %}
-    <li> <img src="{{ edicion.imagen }}" alt="{{ edicion.titulo }}"> {{ edicion.isbn }}, {{ edicion.edicion_id}}</li>
+    <li> <img src="{{ edicion.url_imagen_tapa }}" alt="{{ edicion.titulo }}"> {{ edicion.isbn }}, {{ edicion.edicion_id}}</li>
 {% endfor %}
 </ul>
 <!-- <script src="./assets/script/index.js"></script> -->
