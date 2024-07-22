@@ -2,7 +2,7 @@
 {% block title %} Ediciones {% endblock %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="./static/style/index.css" >
+    <!-- <link rel="styleesheet" href="./static/style/index.css" > -->
 {% endblock %}
 {% block content %}
 
@@ -19,8 +19,35 @@
 {% endwith %}
 
 <form action="./ediciones" method="post" enctype="multipart/form-data">
-    <input type="file" name="portada" id="portada" required class="form-control">
-    <p><input type="submit" value="Subir imágen" class="btn btn-info"></p>
+    <label for="numero_edicion">Número de edición:</label>
+    <input type="text" class="form-control" name="numero_edicion" id="numero_edicion">
+    <br>
+    <label for="fecha_edicion">Fecha de edición (si no sabe el día ponga el primer día del mes):</label>
+    <input type="date" class="form-control" name="fecha_edicion" id="fecha_edicion">
+    <br>
+    <label for="stock">Cantidad (stock) de libros</label>
+    <input type="number" class="form-control" name="stock" id="stock">
+    <br>
+    <label for="isbn">ISBN (número de serie internacional):</label>
+    <input type="text" class="form-control" name="isbn" id="isbn">
+    <br>
+    <label for="editores">Editor:</label>
+    <select name="editores" id="editores" class="form-control">
+        {% for editor in editores %}
+            <option value="{{ editor.editor_id }}"> {{ editor.nombre }}</option>
+        {% endfor %}
+    </select>
+    <br>
+    <label for="portada">Foto del frente:</label>
+    <input type="file" name="portada" id="portada" required class="form-control"
+    onchange="getImagePreview(event, 'portada_img')">
+    <div id="portada_img"></div>
+    <br>
+    <label for="contratapa">Foto de la contratapa:</label>
+    <input type="file" name="contratapa" id="contratapa" class="form-control"
+    onchange="getImagePreview(event, 'contratapa_img')">
+    <div id="contratapa_img"></div>
+    <p><input type="submit" value="Dar de alta esta edición" class="btn btn-primary"></p>
 </form>
 
 <h2>Lista de Ediciones de libros</h2>
@@ -29,6 +56,6 @@
     <li> <img src="{{ edicion.imagen }}" alt="{{ edicion.titulo }}"> {{ edicion.isbn }}, {{ edicion.edicion_id}}</li>
 {% endfor %}
 </ul>
-<script src="./assets/script/index.js"></script>
-
+<!-- <script src="./assets/script/index.js"></script> -->
+<script src="../static/scripts/image_preview.js"></script>
 {% endblock %}

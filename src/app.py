@@ -14,18 +14,11 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 template_dir = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 
 template_dir = os.path.join(template_dir, "src", "templates")
-# Le agregamos los directorios src y templates
+# Se agregan los directorios src y templates
 
 app = Flask(__name__, template_folder=template_dir)
 app.secret_key = "secreto"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
-# vamos a generar nuestra primer ruta para poder ejecutar
-# Ruta de la app
-#@app.route('/') es un decorador. El decorador vincula una función específica del sitio web
-# la función home() será la encargada de que se ejecute la página principal
-
-# Importante a la primer línea de código (from flask import Flask) agregar render_template
 
 @app.route('/home')
 @app.route('/')
@@ -51,7 +44,7 @@ def editores():
     columnNames = [column[0] for column in cursor.description]
     for registro in miResultado:
         insertObject.append(dict(zip(columnNames, registro)))
-    cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
+    cursor.close()
     conn.close()
     return render_template('editores.html', editores=insertObject)
 
@@ -59,6 +52,7 @@ def editores():
 def ediciones():
     conn = db.db_connect()
     cursor = conn.cursor()
+    
     cursor.execute("SELECT * FROM ediciones ORDER BY edicion_id ASC")
     miResultado = cursor.fetchall()
     # Convertir los datos a diccionario
@@ -66,9 +60,18 @@ def ediciones():
     columnNames = [column[0] for column in cursor.description]
     for registro in miResultado:
         insertObject.append(dict(zip(columnNames, registro)))
-    cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
+    
+    cursor.execute("SELECT * FROM editores ORDER BY editor_id ASC")
+    listaEditores = cursor.fetchall()
+    insertEditores = []
+    columnNames2 = [column[0] for column in cursor.description]
+    for editor in listaEditores:
+        insertEditores.append(dict(zip(columnNames2, editor)))
+
+
+    cursor.close()
     conn.close()
-    return render_template('ediciones.html', ediciones=insertObject)
+    return render_template('ediciones.html', ediciones=insertObject, editores=insertEditores)
 
 def archivo_valido(nombre):
     return '.' in nombre and nombre.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -80,6 +83,7 @@ def alta_edicion():
         flash('no hay archivo de imágen')
         return redirect(request.url)
     archivo = request.files['portada']
+
     flash(archivo)
     if archivo.filename == '':
         flash('No se seleccionó imágen.')
@@ -89,23 +93,33 @@ def alta_edicion():
         nombre_archivo = secure_filename(archivo.filename)
         archivo.save(os.path.join(app.root_path, app.config['UPLOAD_FOLDER'], nombre_archivo))
         flash("Portada subida exitosamente!")
-        return render_template('ediciones.html', archivo=nombre_archivo)
+        # return render_template('ediciones.html', archivo=nombre_archivo)
     else:
         flash("Extensiones permitidas jpg y png y poco más")
-        return redirect(request.url)
+        # return redirect(request.url)
 
-    conn = db.db_connect()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM ediciones ORDER BY edicion_id ASC")
-    miResultado = cursor.fetchall()
-    # Convertir los datos a diccionario
-    insertObject = []
-    columnNames = [column[0] for column in cursor.description]
-    for registro in miResultado:
-        insertObject.append(dict(zip(columnNames, registro)))
-    cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
-    conn.close()
-    return render_template('ediciones.html', ediciones=insertObject)
+    # guardar nombre_archivo en la base
+    numero_edicion = request.form['numero_edicion']
+    fecha_edicion = request.form['fecha_edicion']
+    fecha_edicion = request.form['fecha_edicion']
+    stock = request.form['stock']
+    isbn = request.form['isbn']
+    # ver flask para select en html
+    editor = request.form.get('editores')
+    
+    if 1!=1: # mensaje_usuario and mensaje_texto:
+        conn = db.db_connect()
+        cursor = conn.cursor()
+        sql = "INSERT INTO ediciones (autor, mensaje) VALUES (%s, %s)"
+        #data = (mensaje_usuario, mensaje_texto)
+
+        cursor.execute(sql, data)
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+    return render_template ('ediciones.html')
 
 
 @app.route('/foro', methods=['POST'])
@@ -119,10 +133,10 @@ def nuevo_mensaje_foro():
         sql = "INSERT INTO mensajes (autor, mensaje) VALUES (%s, %s)"
         data = (mensaje_usuario, mensaje_texto)
 
-        # hay que ejecutar la consulta y luego hacer el commit
         cursor.execute(sql, data)
         conn.commit()
-        cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
+
+        cursor.close()
         conn.close()
     return redirect (url_for('foro'))
 
@@ -137,7 +151,7 @@ def usuarios():
     columnNames = [column[0] for column in cursor.description]
     for registro in miResultado:
         insertObject.append(dict(zip(columnNames, registro)))
-    cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
+    cursor.close()
     conn.close() 
     return render_template('usuarios.html', data=insertObject)
 
@@ -154,10 +168,10 @@ def addUser():
         sql = "INSERT INTO usuarios (mail, nombre, clave) VALUES (%s, %s, %s)"
         data = (user_mail, user_name, user_pass)
 
-        # hay que ejecutar la consulta y luego hacer el commit
         cursor.execute(sql, data)
         conn.commit()
-        cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
+
+        cursor.close()
         conn.close()
     return redirect (url_for('usuarios'))
 
@@ -191,11 +205,11 @@ def editar(id):
         # hay que ejecutar la consulta y luego hacer el commit
         cursor.execute(sql, data)
         conn.commit()
-        cursor.close() # Es una buena práctica cerrar los cursores luego de usarlos
+
+        cursor.close()
         conn.close()
     return redirect (url_for('usuarios'))
 
 
-# Ejecución directa del archivo, en el puerto 4000 (http://localhost:4000)
 if __name__ == '__main__':
     app.run(debug=True, port=4000)
