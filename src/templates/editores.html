@@ -2,16 +2,33 @@
 {% block title %} Bienvenidos {% endblock %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="./static/style/index.css" >
+    <!-- <link rel="stylesheet" href="./static/style/index.css" > -->
 {% endblock %}
 {% block content %}
 
 <h2>Lista de Editores</h2>
 <ul>
 {% for editor in editores %}
-    <li> {{editor.nombre }}, {{ editor.editor_id}}</li>
+    <li> {{ editor.editor_id }}, {{editor.nombre }}, {{ editor.correo }}, {{ editor.domicilio}}, Teléfono: {{ editor.telefono }} </li>
+    <li>{{ editor.notas }}</li>
 {% endfor %}
 </ul>
-<script src="./assets/script/index.js"></script>
+
+<form action="/editores" method="post" class="">
+    <h3>Agregar un editor:</h3>
+    <label for="nombre">Nombre de la editorial</label>
+    <input type="text" name="nombre" id="nombre" class="form-control">
+    <label for="correo">Correo electrónico:</label>
+    <input type="text" name="correo" id="correo" class="form-control">
+    <label for="domicilio">Domicilio:</label>
+    <input type="text" name="domicilio" id="domicilio" class="form-control">
+    <label for="telefono">Teléfono:</label>
+    <input type="text" name="telefono" id="telefono" class="form-control">
+    <label for="notas">Notas adicionales (hasta 1000 caracteres):</label>
+    <input type="text" name="notas" id="notas" class="form-control">
+    <input type="submit" value="Agregar editor">
+</form>
+
+<!-- <script src="./assets/script/index.js"></script> -->
 
 {% endblock %}
