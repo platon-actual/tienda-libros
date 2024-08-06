@@ -9,8 +9,8 @@
 <h2>Lista de Editores</h2>
 <ul>
 {% for editor in editores %}
-    <li> {{ editor.editor_id }}, {{editor.nombre }}, {{ editor.correo }}, {{ editor.domicilio}}, Teléfono: {{ editor.telefono }} </li>
-    <li>{{ editor.notas }}</li>
+    <li> {{ editor.editor_id }}, {{editor.nombre }}, {{ editor.correo }}, {{ editor.domicilio}}, Teléfono: {{ editor.telefono }} 
+    <br>{{ editor.notas }} </li>
 {% endfor %}
 </ul>
 
@@ -26,7 +26,7 @@
     <input type="text" name="telefono" id="telefono" class="form-control">
     <label for="notas">Notas adicionales (hasta 1000 caracteres):</label>
     <input type="text" name="notas" id="notas" class="form-control">
-    <input type="submit" value="Agregar editor">
+    <input type="submit" value="Agregar editor" class="btn btn-primary">
 </form>
 
 <!-- <script src="./assets/script/index.js"></script> -->
