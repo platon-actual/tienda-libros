@@ -21,7 +21,6 @@ app.secret_key = "secreto"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 #Agrego e importo las rutas, divididas en archivos .py
-
 import editores, ediciones
 
 @app.route('/home')

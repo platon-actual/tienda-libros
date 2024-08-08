@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 
-<h3>Seleccione una imágen para subir</h3>
+<h3>Lista de ediciones</h3>
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -18,43 +18,8 @@
     {% endif %}
 {% endwith %}
 
-<form action="./ediciones" method="post" enctype="multipart/form-data">
-    <label for="numero_edicion">Número de edición:</label>
-    <input type="text" class="form-control" name="numero_edicion" id="numero_edicion">
-    <br>
-    <label for="fecha_edicion">Fecha de edición (si no sabe el día ponga el primer día del mes):</label>
-    <input type="date" class="form-control" name="fecha_edicion" id="fecha_edicion">
-    <br>
-    <label for="stock">Cantidad (stock) de libros</label>
-    <input type="number" class="form-control" name="stock" id="stock">
-    <br>
-    <label for="isbn">ISBN (número de serie internacional):</label>
-    <input type="text" class="form-control" name="isbn" id="isbn">
-    <br>
-    <label for="paginas">Número de páginas: </label>
-    <input type="number" class="form-control" name="paginas" id="paginas">
-    <br>
-    <label for="isbn">Tamaño (ej: 30cm x 19cm x 2cm):</label>
-    <input type="text" class="form-control" name="tamanio" id="tamanio">
-    <br>
-    <label for="editores">Editor:</label>
-    <select name="editores" id="editores" class="form-control">
-        {% for editor in editores %}
-            <option value="{{ editor.editor_id }}"> {{ editor.nombre }}</option>
-        {% endfor %}
-    </select>
-    <br>
-    <label for="portada">Foto del frente:</label>
-    <input type="file" name="portada" id="portada" required class="form-control"
-    onchange="getImagePreview(event, 'portada_img')">
-    <div id="portada_img"></div>
-    <br>
-    <label for="contratapa">Foto de la contratapa:</label>
-    <input type="file" name="contratapa" id="contratapa" class="form-control"
-    onchange="getImagePreview(event, 'contratapa_img')">
-    <div id="contratapa_img"></div>
-    <p><input type="submit" value="Dar de alta esta edición" class="btn btn-primary"></p>
-</form>
+
+<a href="{{ url_for('alta_libros') }}" class="btn btn-primary">Dar de alta un libro</a>
 
 <h2>Lista de Ediciones de libros</h2>
 <ul>
@@ -63,5 +28,7 @@
 {% endfor %}
 </ul>
 <!-- <script src="./assets/script/index.js"></script> -->
-<script src="../static/scripts/image_preview.js"></script>
+
 {% endblock %}
+
+{% block page_js %} <script src="../static/scripts/image_preview.js"></script> {% endblock %}
