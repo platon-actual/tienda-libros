@@ -100,12 +100,13 @@ def alta_edicion():
 
             sql = "INSERT INTO ediciones (editor_id, numero_edicion, nombre_edicion, fecha_edicion, stock, isbn, url_imagen_tapa, url_imagen_trasera, paginas, tamanio) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             data = (editor, numero_edicion, nombre_edicion, fecha_edicion, stock, isbn, url_imagen_tapa, url_imagen_tapa_t, paginas, tamanio)
-
             cursor.execute(sql, data)
             conn.commit()
 
             sql = "INSERT INTO libros (autor, titulo, fecha_publicacion, edicion_id) VALUES (%s, %s, %s, %s)"
             data = (autor, titulo, '', cursor.lastrowid)
+            cursor.execute(sql, data)
+            conn.commit()
 
             cursor.close()
             conn.close()
