@@ -2,12 +2,12 @@
 {% block title %} Bienvenidos {% endblock %}
 {% block head %}
     {{ super() }}
-    <link rel="stylesheet" href="./static/style/index.css" >
+    <link rel="stylesheet" href=" {{ url_for('static', filename='styles/index.css')}}" >
 {% endblock %}
 {% block content %}
 
 <h1>¡Berta Libros!</h1>
 
-<script src="./assets/script/index.js"></script>
+
 
 {% endblock %}

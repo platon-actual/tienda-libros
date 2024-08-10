@@ -1,12 +1,11 @@
+<!-- Copyright Ramiro Iván Ríos -->
 {% extends "base.html" %}
 {% block title %} Ediciones {% endblock %}
 {% block head %}
     {{ super() }}
-    <!-- <link rel="styleesheet" href="./static/style/index.css" > -->
+    <link rel="stylesheet" href="static/styles/ediciones.css" >
 {% endblock %}
 {% block content %}
-
-<h3>Lista de ediciones</h3>
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -18,13 +17,14 @@
     {% endif %}
 {% endwith %}
 
+<h3>Lista de ediciones</h3>
 
 <a href="{{ url_for('alta_libros') }}" class="btn btn-primary">Dar de alta un libro</a>
 
 <h2>Lista de Ediciones de libros</h2>
 <ul>
 {% for edicion in ediciones %}
-    <li> <img src="{{ edicion.url_imagen_tapa }}" alt="{{ edicion.titulo }}"> {{ edicion.isbn }}, {{ edicion.edicion_id}}</li>
+    <li> <img class="libro-thumbnail" src="{{ edicion.url_imagen_tapa }}" alt="{{ edicion.titulo }}"> {{ edicion.isbn }}, {{ edicion.edicion_id}}</li>
 {% endfor %}
 </ul>
 <!-- <script src="./assets/script/index.js"></script> -->
